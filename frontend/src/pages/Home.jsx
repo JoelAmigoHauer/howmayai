@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Heading, SimpleGrid, Text, Button } from '@chakra-ui/react';
-import { Link as RouterLink } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Box, Heading, SimpleGrid, Text, Button } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 
 function Home() {
   const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/restaurants')
+    fetch("http://localhost:3000/api/restaurants")
       .then(res => res.json())
       .then(data => setRestaurants(data))
-      .catch(error => console.error('Error fetching restaurants:', error));
+      .catch(error => console.error("Error fetching restaurants:", error));
   }, []);
 
   return (
@@ -32,7 +32,7 @@ function Home() {
             <Text mb={2}>Hours: {restaurant.openingHours}</Text>
             <Text mb={2}>Location: {restaurant.location}</Text>
             <Text mb={4}>
-              Specialties: {JSON.parse(restaurant.specialties).join(', ')}
+              Specialties: {JSON.parse(restaurant.specialties).join(", ")}
             </Text>
             <Button
               as={RouterLink}

@@ -1,13 +1,13 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Box, Flex, Link, Heading } from '@chakra-ui/react';
+import React from "react";
+import { Link as RouterLink } from "react-router-dom";
+import { Box, Flex, Link, Heading } from "@chakra-ui/react";
 
 function NavBar() {
   return (
     <Box bg="blue.500" px={4} py={4}>
       <Flex maxW="container.xl" mx="auto" align="center" justify="space-between">
         <Heading as="h1" size="lg" color="white">
-          <Link as={RouterLink} to="/" _hover={{ textDecoration: 'none' }}>
+          <Link as={RouterLink} to="/" _hover={{ textDecoration: "none" }}>
             HOWMAYAI
           </Link>
         </Heading>

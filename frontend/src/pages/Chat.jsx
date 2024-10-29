@@ -7,15 +7,15 @@ import {
   Button,
   Text,
   Container,
-  Divider,
+  // Divider is commented out until we verify all imports
+  // Divider,
   useToast
 } from '@chakra-ui/react';
-import { getChatResponse, extractReservationDetails } from '../services/openai';
 
 function Chat() {
   const [messages, setMessages] = useState([
     {
-      role: 'assistant',
+      role: 'system',
       content: 'Hello! I can help you make a restaurant reservation. Which restaurant would you like to book?'
     }
   ]);
@@ -23,47 +23,24 @@ function Chat() {
   const [isLoading, setIsLoading] = useState(false);
   const toast = useToast();
 
-  const [currentReservation, setCurrentReservation] = useState({
-    restaurant_name: '',
-    customer_name: '',
-    date: '',
-    time: '',
-    guests: 0
-  });
-
   const handleSendMessage = async () => {
     if (!input.trim()) return;
 
-    // Add user message to chat
     const userMessage = { role: 'user', content: input };
     setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      // Get response from OpenAI
-      const aiResponse = await getChatResponse(messages.concat(userMessage));
-      
-      // Add AI response to chat
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: aiResponse.content 
-      }]);
-
-      // Try to extract reservation details
-      const updatedReservation = extractReservationDetails([...messages, userMessage, aiResponse]);
-      if (updatedReservation) {
-        setCurrentReservation(prev => ({
-          ...prev,
-          ...updatedReservation
-        }));
-
-        // If we have all necessary details, make the reservation
-        if (isReservationComplete(updatedReservation)) {
-          await makeReservation(updatedReservation);
-        }
-      }
-
+      // Simulate AI response for now
+      setTimeout(() => {
+        const aiResponse = {
+          role: 'assistant',
+          content: `I understand you'd like to make a reservation. Let me help you with that.`
+        };
+        setMessages(prev => [...prev, aiResponse]);
+        setIsLoading(false);
+      }, 1000);
     } catch (error) {
       toast({
         title: 'Error',
@@ -72,47 +49,7 @@ function Chat() {
         duration: 5000,
         isClosable: true,
       });
-    } finally {
       setIsLoading(false);
-    }
-  };
-
-  const isReservationComplete = (reservation) => {
-    return reservation.restaurant_name && 
-           reservation.customer_name && 
-           reservation.date && 
-           reservation.time && 
-           reservation.guests > 0;
-  };
-
-  const makeReservation = async (reservationDetails) => {
-    try {
-      const response = await fetch('http://localhost:3000/api/reservations', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(reservationDetails),
-      });
-
-      if (!response.ok) throw new Error('Failed to make reservation');
-
-      toast({
-        title: 'Success!',
-        description: 'Your reservation has been confirmed.',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to make reservation. Please try again.',
-        status: 'error',
-        duration: 5000,
-        isClosable: true,
-      });
     }
   };
 
@@ -149,25 +86,25 @@ function Chat() {
           ))}
         </Box>
         
-        <Divider />
-        
-        <HStack w="100%">
-          <Input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Type your message here..."
-            disabled={isLoading}
-          />
-          <Button
-            colorScheme="blue"
-            onClick={handleSendMessage}
-            isLoading={isLoading}
-            loadingText="Sending"
-          >
-            Send
-          </Button>
-        </HStack>
+        <Box w="100%" borderTop="1px" borderColor="gray.200" pt={4}>
+          <HStack w="100%">
+            <Input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={handleKeyPress}
+              placeholder="Type your message here..."
+              disabled={isLoading}
+            />
+            <Button
+              colorScheme="blue"
+              onClick={handleSendMessage}
+              isLoading={isLoading}
+              loadingText="Sending"
+            >
+              Send
+            </Button>
+          </HStack>
+        </Box>
       </VStack>
     </Container>
   );

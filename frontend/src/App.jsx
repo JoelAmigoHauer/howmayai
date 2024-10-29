@@ -1,14 +1,14 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ChakraProvider, Box, Container } from '@chakra-ui/react';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { ChakraProvider, Box, Container } from "@chakra-ui/react";
 
 // Pages
-import Home from './pages/Home';
-import Chat from './pages/Chat';
-import AdminDashboard from './pages/AdminDashboard';
+import Home from "./pages/Home";
+import Chat from "./pages/Chat";
+import AdminDashboard from "./pages/AdminDashboard";
 
 // Components
-import NavBar from './components/NavBar';
+import NavBar from "./components/NavBar";
 
 function App() {
   return (
