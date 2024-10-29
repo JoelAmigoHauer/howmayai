@@ -6,8 +6,8 @@ function Home() {
   const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/restaurants")  // Currently using 3000
-              .then(res => res.json())
+    fetch("http://localhost:3001/api/restaurants") // Ensure this matches the backend port
+      .then(res => res.json())
       .then(data => setRestaurants(data))
       .catch(error => console.error("Error fetching restaurants:", error));
   }, []);

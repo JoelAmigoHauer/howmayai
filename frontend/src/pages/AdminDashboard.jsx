@@ -26,12 +26,11 @@ function AdminDashboard() {
   const toast = useToast();
 
   useEffect(() => {
-    // Fetch restaurants
-    fetch('http://localhost:3000/api/restaurants')
+    fetch("http://localhost:3001/api/restaurants") // Update to match the backend port
       .then(res => res.json())
       .then(data => setRestaurants(data))
       .catch(error => {
-        console.error('Error fetching restaurants:', error);
+        console.error("Error fetching restaurants:", error);
         toast({
           title: 'Error',
           description: 'Failed to load restaurants',
